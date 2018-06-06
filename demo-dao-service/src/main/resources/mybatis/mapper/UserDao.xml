@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwq.daoservice.dao.UserDao">
+    <select id="selectById" resultType="User">
+        select * from user where id = #{id}
+    </select>
+    <select id="selectByUser" resultType="User">
+        SELECT * FROM user where name=#{name} and password=#{password}
+    </select>
+    <select id="selectByName" resultType="User">
+        SELECT * FROM user where name=#{name}
+    </select>
+    <select id="listAll" resultType="User">
+        select * from user
+    </select>
+
+    <select id="selectByAutho" resultType="User">
+        select * from user where autho = #{autho}
+    </select>
+
+
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+
+    <insert id="add" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+        insert  user (name,password) value (#{name},#{password})
+    </insert>
+
+    <update id="update" parameterType="User">
+        update user set name=#{name},password=#{password} where id=#{id}
+    </update>
+    <update id="updatePassword" parameterType="User">
+        UPDATE user set password=#{password} where id =#{id}
+    </update>
+</mapper>

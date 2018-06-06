@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>订单查询</title>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var user = [[${session.user}]];
+            main.page.head(user);
+        });
+    </script>
+
+</head>
+<body style="margin-top: 100px">
+<div th:include="tamplate::head"></div>
+<div>
+    <div>
+        <div align="left" style="font: 30px bold">
+            <label class="label label-info">所有订单：</label>
+        </div>
+        <br>
+        <table class="table" style="text-align: center;font-weight: bold;font-size: 20px">
+            <thead>
+            <tr class="info">
+                <td colspan="2" style="width: 45%">
+                    宝贝
+                </td>
+                <td style="width: 15%">
+                    单价
+                </td>
+                <td style="width: 15%">
+                    数量
+                </td>
+                <td style="width: 25%">
+                    总金额
+                </td>
+            </tr>
+            </thead>
+        </table>
+
+
+        <table th:each="order,inStat1 : ${orders}" class="table table-bordered"
+               style="text-align: center;margin-bottom: 80px">
+            <thead style="font-size: 20px;font-weight: bold">
+            <tr class="active">
+                <td colspan="2" th:text="${order.getCreatTime()}"></td>
+                <td colspan="3" style="text-align: left;padding-left: 20px"> 订单号：</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem,inStat2:${order.getOrderItems()}" style="text-align: center;font-weight: bold;font-size: 15px">
+                <td style="width: 30%;vertical-align: middle">
+                    <img th:src="@{/images/{img}(img=${orderItem.getTea().getImg()})}" alt="这是个图片" class="img-circle"
+                         style="width: 100px;height: 100px">
+                </td>
+                <td style="width: 15%;vertical-align: middle">
+                    <span th:text="${orderItem.getTea().getName()}"></span>
+                </td>
+                <td style="width: 15%;vertical-align: middle">
+                    <span th:text="${orderItem.getTea().getPrice()}"></span>
+                </td>
+                <td style="width: 15%;vertical-align: middle">
+                    <span th:text="${orderItem.getCount()}"></span>
+                </td>
+                <td th:style="'display:'+(${inStat2.first}?'':'none')+';font-weight: bolder;vertical-align: middle;width: 25%'"
+                    th:rowspan="${inStat2.size}">
+                    <span th:text="'￥'+${order.getSum()}">
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>控制台</title>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var user = [[${session.user}]];
+            main.page.head(user);
+        });
+
+    </script>
+</head>
+<body>
+<div th:include="tamplate::head"></div>
+<div class="container">
+    <div class="row" style="margin-top: 15%">
+        <div class="col-md-6">
+            <a href="/admin/productAdmin">
+                <button class="btn btn-default btn-info" style="font-size: 80px;margin-right: 100px">
+                    <span class="	glyphicon glyphicon-leaf">库存管理</span>
+                </button>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a href="/admin/ordersAdmin">
+                <button class="btn btn-default btn-info" style="font-size: 80px">
+                    <span class="glyphicon glyphicon-th-list">订单管理</span>
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

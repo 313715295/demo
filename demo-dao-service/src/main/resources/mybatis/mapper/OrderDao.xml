@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwq.daoservice.dao.OrderDao">
+    <resultMap id="orderBean" type="Order">
+        <id column="o_id" property="id"/>
+        <result column="creatTime" property="creatTime"/>
+        <result column="code" property="code"/>
+        <result column="sum" property="sum"/>
+        <association property="user" javaType="User">
+            <id column="u_id" property="id"/>
+            <result column="u_name" property="name"/>
+        </association>
+        <collection property="orderItems" ofType="OrderItem">
+            <id column="oi_id" property="id"/>
+            <result column="count" property="count"/>
+            <association property="tea" javaType="Tea">
+                <id column="t_id" property="id"/>
+                <result column="t_name" property="name"/>
+                <result column="price" property="price"/>
+                <result column="stocks" property="stocks"/>
+                <result column="img" property="img"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <resultMap id="orderBean2" type="Order">
+        <id column="o_id" property="id"/>
+        <result column="creatTime" property="creatTime"/>
+        <result column="code" property="code"/>
+        <result column="sum" property="sum"/>
+        <collection property="orderItems" ofType="OrderItem">
+            <id column="oi_id" property="id"/>
+            <result column="count" property="count"/>
+            <association property="tea" javaType="Tea">
+                <id column="t_id" property="id"/>
+                <result column="name" property="name"/>
+                <result column="price" property="price"/>
+                <result column="stocks" property="stocks"/>
+                <result column="img" property="img"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="listAllWithUserAndTea" resultMap="orderBean">
+        SELECT
+            o.*,
+            oi.*,
+            u.id,
+            u.name,
+            t.*,
+            o.id   'o_id',
+            oi.id  'oi_id',
+            t.id   't_id',
+            u.id   'u_id',
+            u.name 'u_name',
+            t.name 't_name'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON oi.oid = o.id
+            INNER JOIN user u ON o.uid = u.id
+            INNER JOIN tea t ON oi.tid = t.id
+    </select>
+
+    <select id="selectByUser" resultMap="orderBean2">
+        SELECT
+            o.*,
+            oi.*,
+            t.*,
+            o.id  'o_id',
+            oi.id 'oi_id',
+            t.id  't_id'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON o.id = oi.oid
+            INNER JOIN tea t ON oi.tid = t.id AND uid = #{uid}
+    </select>
+
+    <select id="selectByIdWithUser" resultMap="orderBean">
+        SELECT
+            o.*,
+            oi.*,
+            u.id,
+            u.name,
+            t.*,
+            o.id   'o_id',
+            oi.id  'oi_id',
+            t.id   't_id',
+            u.id   'u_id',
+            u.name 'u_name',
+            t.name 't_name'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON oi.oid = o.id
+            INNER JOIN user u ON o.uid = u.id
+            INNER JOIN tea t ON oi.tid = t.id AND oi.oid=#{id}
+    </select>
+    <select id="selectById" resultType="Order">
+        SELECT *
+        FROM order_
+        WHERE id = #{id}
+    </select>
+
+    <select id="listAll" resultType="Order">
+        SELECT *
+        FROM order_
+    </select>
+
+
+    <delete id="deleteById">
+        DELETE FROM order_
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="add" parameterType="Order" keyProperty="id" useGeneratedKeys="true">
+
+        INSERT IGNORE INTO order_ (creatTime, code, uid, sum) VALUES (#{creatTime}, #{code}, #{user.id}, #{sum})
+
+    </insert>
+
+
+</mapper>

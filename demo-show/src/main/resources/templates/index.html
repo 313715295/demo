@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>首页</title>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        .carousel {
+            height: 600px;
+            background-color: #000;
+        }
+
+        .carousel .item {
+            height: 600px;
+            background-color: #000;
+        }
+
+        .carousel img {
+            width: 100%;
+        }
+
+        .carousel-caption a {
+            margin: 30px;
+        }
+
+    </style>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var user = [[${session.user}]];
+            main.page.head(user);
+            main.page.index();
+        });
+    </script>
+
+</head>
+<body>
+<div th:include="tamplate::head"></div>
+<div>
+       <div id="carousel-1" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-1" data-slide-to="1"></li>
+            <li data-target="#carousel-1" data-slide-to="2"></li>
+            <li data-target="#carousel-1" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img th:src="@{/images/miaosha-1.jpg}" class="img-circle" alt="1 slide">
+                <div class="carousel-caption">
+                    <h1>高山原生态茶叶限时优惠秒杀！</h1>
+                    <a class="btn btn-lg btn-primary" href="" role="button" target="_blank">点我参与</a>
+                </div>
+            </div>
+            <div class="item">
+                <img th:src="@{/images/miaosha-2.jpg}" class="img-circle" alt="2 slide">
+            </div>
+            <div class="item">
+                <img th:src="@{/images/timg-1.jpg}" class="img-circle" alt="3 slide">
+            </div>
+            <div class="item">
+                <img th:src="@{/images/timg-2.jpg}" class="img-circle" alt="4 slide">
+            </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-1" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-1" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+    </div>
+
+    <div class="container" style="margin-top: 80px">
+        <div class="row">
+            <div class="col-md-4" th:each="tea,inStat:${teas}">
+                <table class="table table-striped table-hover " style="text-align: center">
+                    <tr>
+                        <th>
+                            <img th:src="@{/images/{img}(img=${tea.getImg()})}" alt="这是个图片" class="img-circle"
+                                 style="width: 100%;height: 200px"><br>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th th:text="${tea.getName()}" style="text-align: center"></th>
+                    </tr>
+                    <tr>
+                        <td class="text-info" th:text="'单价：'+${tea.getPrice()}+' 元/斤'"
+                        ></td>
+                    </tr>
+                    <tr>
+                        <td>库存：<span class="text-success" th:text="${tea.getStocks()}" style="padding: 15px"
+                                     th:id="'stocks'+${inStat.index}"></span>
+                            斤
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-default btn-sm" th:id="'dec'+${inStat.index}"><span
+                                    class="glyphicon glyphicon-minus"></span></button>
+                            <input th:id="'count'+${inStat.index}" type="text" value="1"
+                                   style="width: 15%;text-align: center">
+                            <button class="btn btn-default  btn-sm" th:id="'add'+${inStat.index}"><span
+                                    class="glyphicon glyphicon-plus"></span></button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="teaID" th:id="'tid'+${inStat.index}" th:value="${tea.getId()}">
+                            <button class="btn btn-primary btn-lg" th:id="'cart'+${inStat.index}"><span
+                                    class="glyphicon glyphicon-shopping-cart">加入购物车</span></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

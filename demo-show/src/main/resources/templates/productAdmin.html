@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>库存管理</title>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var user = [[${session.user}]];
+            main.page.head(user);
+            main.admin.adminProduct();
+        });
+
+    </script>
+</head>
+
+<body style="margin-top: 100px">
+<div th:include="tamplate::head"></div>
+<div th:include="tamplate::editor"></div>
+<div>
+    <table class="table table-bordered table-striped table-hover" style="text-align: center">
+        <thead style="font-weight: bold;font-size: 30px">
+        <tr class="info">
+            <td colspan="2" style="width: 45%">
+                商品
+            </td>
+            <td style="width: 15%">
+                单价
+            </td>
+            <td style="width: 15%">
+                库存
+            </td>
+            <td style="width: 25%">
+                操作
+            </td>
+        </tr>
+        </thead>
+        <tbody style="font-size: 16px">
+        <tr th:each="tea,inStat:${teas}">
+            <td style="width: 30%;vertical-align: middle">
+                <input type="hidden" th:id="'productImg'+${inStat.index}" th:value="${tea.getImg()}">
+                <img th:src="@{/images/{img}(img=${tea.getImg()})}" alt="这是个图片" class="img-circle"
+                     style="width: 100px;height: 100px">
+            </td>
+            <td style="width: 15%;vertical-align: middle">
+                <span  th:id="'productName'+${inStat.index}" th:text="${tea.getName()}"></span>
+            </td>
+            <td style="width: 15%;vertical-align: middle">
+                单价：<span  th:id="'productPrice'+${inStat.index}" th:text="${tea.getPrice()}"> 元/斤</span>
+            </td>
+            <td style="width: 15%;vertical-align: middle">
+                库存：<span  th:id="'productStocks'+${inStat.index}" th:text="${tea.getStocks()}" style="padding: 15px"> 斤</span>
+            </td>
+            <td style="width: 25%;vertical-align: middle">
+
+                <form>
+                    <input type="hidden" th:value="${tea.getId()}" name="id" class="teaID"  th:id="'productId'+${inStat.index}">
+                    <div  class="btn-group btn-group-lg" role="group">
+                        <input class="btn btn-primary" type="button" value="编辑" th:id="'productEditor'+${inStat.index}">
+                        <input class="btn btn-danger" type="button" value="删除" th:id="'productDel'+${inStat.index}">
+                    </div>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                    <button class="btn btn-lg btn-block btn-success" id="addProduct">新增商品</button>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+
+
+</div>
+
+
+
+
+
+</body>
+</html>

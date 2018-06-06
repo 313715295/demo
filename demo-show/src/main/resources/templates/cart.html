@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>购物车</title>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var user = [[${session.user}]];
+            main.page.head(user);
+            main.cart.showCart();
+            main.cart.submitOrder(user);
+        });
+
+    </script>
+</head>
+<body style="padding-top: 80px">
+<div th:include="tamplate::head"></div>
+<div>
+    <form id="submitForm" method="post" action="/cart/submitOrder">
+        <table class="table table-hover table-striped">
+            <thead>
+            <th colspan="6"><span class="glyphicon glyphicon-shopping-cart"
+                                  style="font-size: 100px;color: orange">:</span>
+                <label class="label label-info" th:text="${message}" style="font-size: 20px"></label>
+            </th>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem,inStat:${ois}"
+                style="text-align: center;font-weight: bold;font-size: 15px">
+                <td>
+                    <img th:src="@{/images/{img}(img=${orderItem.getTea().getImg()})}" alt="这是个图片" class="img-circle"
+                         style="width: 100px;height: 100px">
+                </td>
+                <td style="vertical-align: middle">
+                    <span th:id="'cartName'+${inStat.index}"  th:text="${orderItem.getTea().getName()}"></span>
+                </td>
+                <td style="vertical-align: middle">
+                    单价：<span th:id="'cartPrice'+${inStat.index}" th:text="${orderItem.getTea().getPrice()}"></span> 元
+                </td>
+                <td style="vertical-align: middle">
+                    <input type="button" th:id="'cartDec'+${inStat.index}" value="-">
+                    <input th:id="'cartCount'+${inStat.index}" type="text" th:value="${orderItem.getCount()}"
+                           style="width: 10%;text-align: center"
+                           th:name="'teaDatas['+${inStat.index}+'].count'">
+                    <input type="button" th:id="'cartAdd'+${inStat.index}" value="+">
+                    斤
+                </td>
+                <td style="vertical-align: middle">
+                    总价：<span class="total" style="color: orangered" th:id="'cartTotal'+${inStat.index}"
+                             th:text="${orderItem.getTea().getPrice()}*${orderItem.getCount()}"></span> 元
+                </td>
+                <td style="vertical-align: middle">
+                    <input class="cartTid" th:id="'cartTid'+${inStat.index}" type="hidden"
+                           th:value="${orderItem.getTea().getId()}"
+                           th:name="'teaDatas['+${inStat.index}+'].tid'">
+                    <input type="button" class="btn btn-warning" th:id="'cartDel'+${inStat.index}" value="删除">
+                </td>
+            </tr>
+            </tbody>
+            <tfoot style="font: 25px bold">
+            <th style="text-align: center">总金额</th>
+            <th colspan="2">￥：<span id="allTotal" style="padding: 20px"></span></th>
+            <th colspan="3">
+                <input type="hidden" value="0" id="totalMoney" name="totalMoney">
+                <input class="btn btn-primary btn-lg btn-block" type="button" value="提交订单" id="submitOrder"
+                       style="height: 100%;font: 25px bold">
+            </th>
+            </tfoot>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

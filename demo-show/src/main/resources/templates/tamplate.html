@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body style="padding-top: 70px">
+
+<div th:fragment="head">
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index">高山茶叶</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-1">
+                <ul class="nav navbar-nav">
+                    <li><a id="indexLog" href="#" >亲，请登录</a></li>
+                    <li><a id="indexReg" href="#">免费注册</a></li>
+                    <li><a id="hello" href="/index" style="display: none">欢迎</a></li>
+                    <li><a id="signOut" href="#" style="display: none">退出登录</a></li>
+                    <li><a id="changePassword" href="#" style="display: none">修改密码</a></li>
+                    <li><a id="orderCenter" href="#" style="display: none">订单查询</a></li>
+                    <li><a id="admin" href="/admin" style="display: none">控制台</a></li>
+                    <li><a href="/cart">
+                        <button class="btn btn-primary btn-lg"><span
+                                class="glyphicon glyphicon-shopping-cart">查看购物车</span></button>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 模态框修改密码 -->
+    <div class="modal fade" id="myModal-3" tabindex="-1" role="dialog" aria-hidden="true" style="top: 200px">
+        <div class="modal-dialog" style="width: 400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" style="text-align: left">
+                        <span class="text-primary" style="font-weight: bold">修改密码:</span>
+                    </h3>
+                </div>
+                <div class="modal-body" style="height: 350px;text-align: center">
+                    <form id="formChangePassword" style="text-align: left">
+                        <label for="oldePassword" style="font-weight: bold;font-size: 18px">输入原密码：</label>
+                        <span id="oldePasswordMessage" style="color: red;font-weight: bold;font-size: 15px"></span>
+                        <input onblur="main.sign.oldePasswordCheck()" type="password" placeholder="请输入原密码"
+                               id="oldePassword" name="name" class="form-control">
+                        <br>
+                        <label for="newPassword1" style="font-weight: bold;font-size: 18px">输入新密码：</label>
+                        <span id="newPassword1Message" style="color: red;font-weight: bold;font-size: 15px"></span>
+                        <input onblur="main.sign.newPassword1Check()" type="password" placeholder="请输入新密码"
+                               id="newPassword1" name="password" class="form-control">
+                        <br>
+                        <label for="newPassword2" style="font-weight: bold;font-size: 18px">确认新密码：</label>
+                        <span id="newPassword2Message" style="color: red;font-weight: bold;font-size: 15px"></span>
+                        <input onblur="main.sign.newPassword2Check()" type="password" placeholder="再次输入新密码"
+                               id="newPassword2" name="password" class="form-control">
+                    </form>
+                    <div class="btn-group" data-toggle="buttons" style="margin-top: 30px">
+                        <input type="button" class="btn btn-primary" id="confirm" value="确定" style="margin-right: 30px">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="取消"
+                               style="margin-left: 30px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框登录注册 -->
+    <div class="modal fade" id="myModal-2" tabindex="-1" role="dialog" aria-hidden="true" style="top: 200px">
+        <div class="modal-dialog" style="width: 400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" style="text-align: left">
+
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default  btn-lg" id="login">
+                                <input type="radio">登录
+                            </label>
+                            <label class="btn btn-default  btn-lg" id="register">
+                                <input type="radio">注册
+                            </label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 300px">
+                    <form id="formLog">
+                        <span id="logMessage" style="color: red;font-weight: bold"></span>
+                        <label for="logName"></label>
+                        <input type="text" placeholder="请输入登录账号" id="logName" name="name" class="form-control">
+                        <label for="logPassword"></label>
+                        <input type="password" placeholder="请输入登录密码" id="logPassword" name="password"
+                               class="form-control">
+                        <br>
+                        <input type="button" class="btn btn-info btn-lg btn-block" value="登录" id="log">
+                    </form>
+
+                    <form id="formReg">
+                        <span id="userNameMessage" style="color: red;font-weight: bold"></span>
+                        <label for="regName"></label>
+                        <input type="text" onblur="main.sign.regUserNameCheck()" placeholder="请输入注册账号" id="regName"
+                               name="name" class="form-control">
+                        <label for="regPassword"></label>
+                        <input type="password" onblur="main.sign.passwordCheck()" placeholder="请输入密码" id="regPassword"
+                               name="password"
+                               class="form-control">
+                        <label for="regPassword2"></label>
+                        <input type="password" onblur="main.sign.regPasswordCheck()" placeholder="确认输入密码"
+                               id="regPassword2" class="form-control">
+                        <span id="passwordMessage" style="color: red;font-weight: bold"></span>
+                        <br>
+                        <br>
+                        <input type="button" class="btn btn-info btn-lg btn-block" value="注册" id="reg">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框消息框 -->
+    <div class="modal fade" id="myModal-1" tabindex="-1" role="dialog" aria-hidden="true" style="top: 200px;z-index: 1111">
+        <div class="modal-dialog" style="width: 350px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" style="text-align: left"><span class="glyphicon glyphicon-shopping-cart"
+                                                                           style="font-size: 30px"></span></h4>
+                </div>
+                <div class="modal-body" style="height: 50px;text-align: center">
+                    <label class="label label-info" style="font-size: 18px" id="message-1">成功加入购物车</label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="btn-1">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div th:fragment="editor">
+    <!-- 模态框编辑框 -->
+    <div class="modal fade" id="myModal-4" tabindex="-1" role="dialog" aria-hidden="true" style="top: 200px">
+        <div class="modal-dialog" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" style="text-align: left">
+                        <span class="glyphicon glyphicon-shopping-cart" style="font-size: 30px"
+                              id="editorTitle">新增商品</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 450px;text-align: center">
+                    <form id="productEditorFrom" action="/admin/productAdmin/productEditor" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width: 30%;vertical-align: middle" rowspan="2">
+                                    图标：
+                                </td>
+                                <td align="left">
+                                    <img alt="图标"
+                                         class="img-circle"
+                                         src="/images/default.jpg"
+                                         style="width:100px;height: 100px" id="productImgShow">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="file" name="file" accept="image/*" id="productImg">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: middle">
+                                    商品名：
+                                </td>
+                                <td align="left">
+                                    <input type="hidden" name="id" id="productId">
+                                    <input class="form-control" onblur="main.admin.productNameCheck()" type="text" name="name" id="productName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: middle">
+                                    单价：
+                                </td>
+                                <td align="left">
+                                    <input class="form-control" onblur="main.admin.productPriceCheck()" type="text" name="price" id="productPrice">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: middle">
+                                    更新库存：
+                                </td>
+                                <td align="left">
+                                    <input class="form-control" onblur="main.admin.productStocksCheck()" type="text" name="stocks" id="productStocks">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <span id="editorMessage" style="color: red;font-weight: bold"></span>
+                    <br>
+                    <div class="btn-group" data-toggle="buttons" style="margin-top: 30px">
+                        <input type="button" class="btn btn-primary btn-lg" id="submitProduct" value="提交"
+                               style="margin-right: 30px">
+                        <input type="button" class="btn btn-default btn-lg" data-dismiss="modal" value="取消"
+                               style="margin-left: 30px">
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-primary btn-lg" id="test">开始演示模态框</button>
+<div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">消息提示</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-xs-2 col-xs-offset-5">
+                            测试文本
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <span id="message"></span>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="test2">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+
+        $("#test").click(function () {
+            var myModal = $("#myModal-4");
+            myModal.modal("show");
+        });
+
+        // var message = $("#message-1");
+        // message.addClass("label-success");
+
+    })
+    ;
+
+</script>
+
+
+</body>
+</html>
+
