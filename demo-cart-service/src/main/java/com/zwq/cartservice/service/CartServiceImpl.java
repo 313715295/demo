@@ -15,7 +15,9 @@ import com.zwq.parent.service.DaoService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * created by zwq on 2018/6/4
@@ -99,7 +101,7 @@ public class CartServiceImpl implements CartService {
             return new Result<>(false, "数据失效", null);
         }
         order.setUser(user);
-        order.setCreatTime(new Date());
+        order.setCreatTime(Instant.now().plusMillis(TimeUnit.HOURS.toMillis(8)));
         List<OrderItem> orderItems = order.getOrderItems();
         List<String> TeaNames = new ArrayList<>();
         for (OrderItem orderItem : orderItems) {

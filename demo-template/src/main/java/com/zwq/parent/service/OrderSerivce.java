@@ -23,7 +23,7 @@ public interface OrderSerivce extends Service<Order> {
 
     int Update(Order order);
 
-    Order selectByIdWithUser(int id);
+    Order selectByIdWithAll(int id);
 
 
     Order addOrderWithAll(Order order);

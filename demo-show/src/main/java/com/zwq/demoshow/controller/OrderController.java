@@ -35,7 +35,7 @@ public class OrderController {
             response.sendRedirect("/index");
             return null;
         } else {
-            Order order = daoService.selectOrderByIdWithUser(id);
+            Order order = daoService.selectOrderByIdWithAll(id);
             if (order == null ) {
                 response.sendRedirect("/index");
                 return null;

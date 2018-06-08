@@ -11,9 +11,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class DemoDaoApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(DemoDaoApplication.class, args);
-		new SpringApplicationBuilder(DemoDaoApplication.class)
-				.web(WebApplicationType.NONE)
-				.run(args);
+		SpringApplication.run(DemoDaoApplication.class, args);
+//		new SpringApplicationBuilder(DemoDaoApplication.class)
+//				.web(WebApplicationType.NONE)
+//				.run(args);
 	}
 }

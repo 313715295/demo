@@ -41,11 +41,11 @@ public class OrderServiceImpl implements OrderSerivce {
     }
 
     @Override
-    public Order selectByIdWithUser(int id) {
+    public Order selectByIdWithAll(int id) {
         String key = "order:" + id;
         Order order = redisClient.get(key, Order.class);
         if (order == null) {
-            order = orderDao.selectByIdWithUser(id);
+            order = orderDao.selectByIdWithAll(id);
             if (order != null) {
                 redisClient.setWithExpire(key, order, 3600);
             }

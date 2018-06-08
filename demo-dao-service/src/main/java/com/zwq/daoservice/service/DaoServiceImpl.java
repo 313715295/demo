@@ -60,8 +60,8 @@ public class DaoServiceImpl implements DaoService {
     }
 
     @Override
-    public Order selectOrderByIdWithUser(int id) {
-        return orderSerivce.selectByIdWithUser(id);
+    public Order selectOrderByIdWithAll(int id) {
+        return orderSerivce.selectByIdWithAll(id);
     }
 
 

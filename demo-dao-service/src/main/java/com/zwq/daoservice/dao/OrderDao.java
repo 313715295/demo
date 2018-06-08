@@ -38,6 +38,6 @@ public interface OrderDao extends Dao<Order>{
      * @param id
      * @return
      */
-    Order selectByIdWithUser(int id);
+    Order selectByIdWithAll(int id);
 
 }

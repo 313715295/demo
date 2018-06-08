@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwq.daoservice.dao.UserDao">
     <select id="selectById" resultType="User">
-        select * from user where id = #{id}
+        select * from user where id = #{id} LIMIT 1
     </select>
     <select id="selectByUser" resultType="User">
-        SELECT * FROM user where name=#{name} and password=#{password}
+        SELECT * FROM user where name=#{name} and password=#{password} LIMIT 1
     </select>
     <select id="selectByName" resultType="User">
-        SELECT * FROM user where name=#{name}
+        SELECT * FROM user where name=#{name} LIMIT 1
     </select>
     <select id="listAll" resultType="User">
         select * from user

@@ -30,8 +30,8 @@ public class DemoDaoApplicationTests {
 //	private OrderSerivce orderSerivce;
 //	@Autowired
 //    private UserService userService;
-//    @Autowired
-//    private TeaService teaService;
+    @Autowired
+    private TeaService teaService;
 //
 
 	@Test
@@ -51,6 +51,7 @@ public class DemoDaoApplicationTests {
 //        order.setOrderItems(orderItems);
 //        order.setSum(199);
 //        orderSerivce.addOrderWithAll(order);
+
 	}
 
 }

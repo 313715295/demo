@@ -65,7 +65,7 @@ public interface DaoService {
      * @param id
      * @return
      */
-    Order selectOrderByIdWithUser(int id);
+    Order selectOrderByIdWithAll(int id);
 
     /**
      * 查询当前用户下的所有订单

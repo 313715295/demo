@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwq.daoservice.dao.TeaDao">
     <select id="selectById" resultType="Tea">
-        select * from tea where id = #{id}
+        select * from tea where id = #{id} LIMIT 1
     </select>
 
     <select id="listAll" resultType="Tea">
@@ -12,11 +12,11 @@
     </select>
 
     <select id="selectStocks" resultType="int">
-        select stocks from tea where id = #{id}
+        select stocks from tea where id = #{id} LIMIT 1
     </select>
 
     <select id="selectByName" resultType="Tea">
-        select t.id,t.name from tea t where name = #{name}
+        select t.id,t.name from tea t where name = #{name} LIMIT 1
     </select>
 
     <delete id="deleteById">
