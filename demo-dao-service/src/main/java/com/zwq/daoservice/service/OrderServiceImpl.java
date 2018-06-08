@@ -77,7 +77,6 @@ public class OrderServiceImpl implements OrderSerivce {
             }
         }
         orders.add(order);
-        System.out.println(orders);
         redisClient.setListWithExpire(key2, orders, 3600);
         return order;
     }
