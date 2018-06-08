@@ -16,7 +16,7 @@ import java.util.Map;
  * created by zwq on 2018/5/6
  */
 @Service
-public class TeaServiceImpl implements TeaService,Serializable {
+public class TeaServiceImpl implements TeaService {
 
     private TeaDao teaDao;
 
@@ -47,14 +47,12 @@ public class TeaServiceImpl implements TeaService,Serializable {
     }
 
     @Override
-    @Transactional
     public Tea add(Tea tea) {
         teaDao.add(tea);
         return tea;
     }
 
     @Override
-    @Transactional
     public int Update(Tea tea) {
 
         return teaDao.update(tea);
@@ -62,24 +60,10 @@ public class TeaServiceImpl implements TeaService,Serializable {
 
 
     @Override
-    public void updateStocks(Tea tea) {
-
-    }
-
-    @Override
-    public boolean updatePrice(Map<String, Object> map) {
-        return false;
-    }
-
-    @Override
     public int selectStocks(int id) {
         return teaDao.selectStocks(id);
     }
 
-    @Override
-    public int updateStocksByList(List<OrderItem> orderItems) {
-        return teaDao.updateStocksByList(orderItems);
-    }
 
 
 }

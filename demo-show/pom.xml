@@ -5,7 +5,7 @@
 
 	<groupId>com.zwq</groupId>
 	<artifactId>demo-show</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>demo-show</name>
@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>com.zwq</groupId>
 			<artifactId>demo-parent</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>2.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

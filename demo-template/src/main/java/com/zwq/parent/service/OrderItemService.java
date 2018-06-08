@@ -20,14 +20,8 @@ public interface OrderItemService extends Service<OrderItem> {
 
     int Update(OrderItem orderItem);
 
-    int addByList(List<OrderItem> orderItems);
-
-    List<OrderItem> selectByOrder(int oid);
 
 
-    List<OrderItem> selectByTea(int tid);
-
-    OrderItem selectByIdWithTea(int id);
 
 
 }

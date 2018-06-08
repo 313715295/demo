@@ -29,6 +29,11 @@ public interface TeaDao extends Dao<Tea> {
     @Override
     int add(Tea tea);
 
+    /**
+     * 根据所有订单项信息更新商品信息
+     * @param orderItems
+     * @return
+     */
     int updateStocksByList(List<OrderItem> orderItems);
 
     Tea selectByName(String name);

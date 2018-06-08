@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface OrderSerivce extends Service<Order> {
 
+    @Override
     Order add(Order order);
 
     Order select(int id);
@@ -18,12 +19,12 @@ public interface OrderSerivce extends Service<Order> {
 
     int delete(int id);
 
-
     List<Order> selectByUser(int uid);
 
     int Update(Order order);
 
     Order selectByIdWithUser(int id);
 
-    List<Order> listAllWithUserAndTea();
+
+    Order addOrderWithAll(Order order);
 }

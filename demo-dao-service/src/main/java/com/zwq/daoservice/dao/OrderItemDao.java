@@ -25,11 +25,13 @@ public interface OrderItemDao extends Dao<OrderItem> {
     @Override
     int add(OrderItem orderItem);
 
+    /**
+     * 把list数据添加至orderitem数据表中
+     * @param orderItems
+     * @return
+     */
     int addByList(List<OrderItem> orderItems);
 
-    List<OrderItem> selectByTea(int tid);
-
-    OrderItem selectByIdWithTea(int id);
 
 
 }

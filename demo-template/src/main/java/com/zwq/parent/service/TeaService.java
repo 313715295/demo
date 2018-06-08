@@ -25,13 +25,8 @@ public interface TeaService extends Service<Tea> {
 
     int Update(Tea tea);
 
-    void updateStocks(Tea tea);
-
-    boolean updatePrice(Map<String, Object> map);
-
     int selectStocks(int id);
 
-    int updateStocksByList(List<OrderItem> orderItems);
 
 
 }

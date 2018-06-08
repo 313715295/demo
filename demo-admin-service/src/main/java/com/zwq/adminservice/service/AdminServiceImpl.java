@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public Result<Tea> productEditor(Tea tea, byte[] bytes,String fileName) {
+    public Result<Tea> productEditor(Tea tea, byte[] bytes) {
 
         String img = tea.getName() + System.currentTimeMillis() + ".jpg";
         Integer id = tea.getId();
@@ -63,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
                 int oldStocks = oldTea.getStocks();
                 tea.setStocks(oldStocks + addStocks);
                 String oldImg = oldTea.getImg();
-                if (fileName.length() != 0) {
+                if (bytes.length != 0) {
                     tea.setImg(img);
                     FileUtil.uploadFile(bytes, targetFilePath, img);
                     File oldImage = new File(targetFilePath + oldImg);

@@ -6,7 +6,7 @@ import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.OrderItem;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.OrderData;
+import com.zwq.parent.dto.dto.OrderDataDTO;
 import com.zwq.parent.dto.dto.Result;
 import com.zwq.parent.dto.dto.TeaData;
 import com.zwq.parent.enums.CartEnum;
@@ -68,8 +68,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Order getOrderByOrderData(OrderData orderData) {
-        List<TeaData> teaDatas = orderData.getTeaDatas();
+    public Order getOrderByOrderData(OrderDataDTO orderDataDTO) {
+        List<TeaData> teaDatas = orderDataDTO.getTeaDatas();
         List<OrderItem> orderItems = new ArrayList<>();
         for (TeaData teaData : teaDatas) {
             OrderItem orderItem = new OrderItem();
@@ -80,7 +80,7 @@ public class CartServiceImpl implements CartService {
             orderItem.setCount(count);
             orderItems.add(orderItem);
         }
-        int totalMoney = orderData.getTotalMoney();
+        int totalMoney = orderDataDTO.getTotalMoney();
         Order order = new Order();
         order.setSum(totalMoney);
         order.setOrderItems(orderItems);
@@ -116,13 +116,11 @@ public class CartServiceImpl implements CartService {
             String message = TeaNames + "库存不足";
             return new Result<>(false, message, null);
         } else {
-            Order order1 = daoService.addOrder(order);
-            for (OrderItem orderItem : orderItems) {
-                orderItem.setOid(order1.getId());
+            Order order1 = daoService.addOrderWithAll(order);
+            if (order1 != null) {
+                return new Result<>(true, "成功提交订单", order1);
             }
-            daoService.updateProductStocksByOrderItems(orderItems);
-            daoService.addOrderItemByOrderItems(orderItems);
-            return new Result<>(true, "成功提交订单", order1);
+            return new Result<>(false, "系统异常", null);
 
         }
     }

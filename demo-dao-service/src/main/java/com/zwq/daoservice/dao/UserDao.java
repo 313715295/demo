@@ -13,7 +13,6 @@ public interface UserDao extends Dao<User> {
     @Override
     User selectById(int id);
 
-    User selectByUser(User user);
 
     @Override
     List<User> listAll();

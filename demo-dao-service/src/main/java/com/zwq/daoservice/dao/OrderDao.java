@@ -26,10 +26,18 @@ public interface OrderDao extends Dao<Order>{
     @Override
     int add(Order order);
 
+    /**
+     * 查询用户所有订单
+     * @param uid
+     * @return
+     */
     List<Order> selectByUser(int uid);
 
+    /**
+     * 查询订单，包含详细数据
+     * @param id
+     * @return
+     */
     Order selectByIdWithUser(int id);
-
-    List<Order> listAllWithUserAndTea();
 
 }

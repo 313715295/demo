@@ -43,8 +43,8 @@ public class AdminController {
     @ResponseBody
     public Result<Tea> productEditor(Tea tea, MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
-        String fileName = file.getOriginalFilename();
-        return adminService.productEditor(tea, bytes,fileName);
+
+        return adminService.productEditor(tea, bytes);
     }
 
     @GetMapping("/admin/ordersAdmin")

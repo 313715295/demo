@@ -1,8 +1,12 @@
 package com.zwq.daoservice.service;
 
+import com.zwq.daoservice.dao.OrderItemDao;
+import com.zwq.daoservice.dao.TeaDao;
+import com.zwq.daoservice.dao.UserDao;
 import com.zwq.daoservice.dao.redisClient.ProtostuffRedisClient;
 import com.zwq.daoservice.dao.OrderDao;
 import com.zwq.parent.domain.Order;
+import com.zwq.parent.domain.OrderItem;
 import com.zwq.parent.service.OrderSerivce;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,35 +19,20 @@ import java.util.List;
  * created by zwq on 2018/5/11
  */
 @Service
-public class OrderServiceImpl implements OrderSerivce,Serializable {
+public class OrderServiceImpl implements OrderSerivce {
 
     private OrderDao orderDao;
     private ProtostuffRedisClient redisClient;
+    private OrderItemDao orderItemDao;
+    private TeaDao teaDao;
 
-    public OrderServiceImpl(OrderDao orderDao, ProtostuffRedisClient redisClient) {
+    public OrderServiceImpl(OrderDao orderDao, ProtostuffRedisClient redisClient, OrderItemDao orderItemDao, TeaDao teaDao) {
         this.orderDao = orderDao;
         this.redisClient = redisClient;
+        this.orderItemDao = orderItemDao;
+        this.teaDao = teaDao;
     }
 
-    @Override
-    @Transactional
-    public Order add(Order order) {
-        int state = orderDao.add(order);
-        int id = order.getId();
-        String key = "order:" + id;
-        redisClient.setWithExpire(key, order, 3600);
-        String key2 = "order_uid:" + order.getUser().getId();
-        List<Order> orders = redisClient.getList(key2, Order.class);
-        if (orders == null) {
-            orders = orderDao.selectByUser(order.getUser().getId());
-            if (orders == null) {
-                orders = new ArrayList<>();
-            }
-        }
-        orders.add(order);
-        redisClient.setListWithExpire(key2, orders, 3600);
-        return order;
-    }
 
 
     @Override
@@ -53,7 +42,7 @@ public class OrderServiceImpl implements OrderSerivce,Serializable {
 
     @Override
     public Order selectByIdWithUser(int id) {
-        String key = "orderWithUser:" + id;
+        String key = "order:" + id;
         Order order = redisClient.get(key, Order.class);
         if (order == null) {
             order = orderDao.selectByIdWithUser(id);
@@ -64,17 +53,33 @@ public class OrderServiceImpl implements OrderSerivce,Serializable {
         return order;
     }
 
+
     @Override
-    public List<Order> listAllWithUserAndTea() {
-        String key = "orders";
-        List<Order> orders = redisClient.getList(key, Order.class);
+    @Transactional
+    public Order addOrderWithAll(Order order) {
+        orderDao.add(order);
+        int id = order.getId();
+        int uid = order.getUser().getId();
+        List<OrderItem> orderItems = order.getOrderItems();
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOid(id);
+        }
+        orderItemDao.addByList(orderItems);
+        teaDao.updateStocksByList(orderItems);
+        String key = "order:" + id;
+        redisClient.setWithExpire(key, order, 3600);
+        String key2 = "order_uid:" + uid;
+        List<Order> orders = redisClient.getList(key2, Order.class);
         if (orders == null) {
-            orders = orderDao.listAllWithUserAndTea();
-            if (orders != null&&orders.size()!=0) {
-                redisClient.setListWithExpire(key, orders, 3600);
+            orders = orderDao.selectByUser(uid);
+            if (orders.size()==1) {
+                orders = new ArrayList<>();
             }
         }
-        return orders;
+        orders.add(order);
+        System.out.println(orders);
+        redisClient.setListWithExpire(key2, orders, 3600);
+        return order;
     }
 
     @Override
@@ -83,7 +88,7 @@ public class OrderServiceImpl implements OrderSerivce,Serializable {
         List<Order> orders = redisClient.getList(key, Order.class);
         if (orders == null) {
             orders = orderDao.selectByUser(uid);
-            if (orders != null&&orders.size()!=0) {
+            if (orders != null && orders.size() != 0) {
                 redisClient.setListWithExpire(key, orders, 3600);
             }
         }
@@ -92,16 +97,13 @@ public class OrderServiceImpl implements OrderSerivce,Serializable {
 
 
     @Override
+    public Order add(Order order) {
+        return null;
+    }
+
+    @Override
     public Order select(int id) {
-        String key = "order:" + id;
-        Order order = redisClient.get(key, Order.class);
-        if (order == null) {
-            order = orderDao.selectById(id);
-            if (order != null) {
-                redisClient.setWithExpire(key, order, 3600);
-            }
-        }
-        return order;
+        return null;
     }
 
 

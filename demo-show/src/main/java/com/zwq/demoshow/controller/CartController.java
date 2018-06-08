@@ -5,7 +5,7 @@ import com.zwq.demoshow.util.MapUtil;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.OrderItem;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.OrderData;
+import com.zwq.parent.dto.dto.OrderDataDTO;
 import com.zwq.parent.dto.dto.Result;
 import com.zwq.parent.service.CartService;
 import org.springframework.stereotype.Controller;
@@ -72,9 +72,9 @@ public class CartController {
     confirmOrder页面传值这里采取的是seesion传值，还可以考虑用ajax传值。
      */
     @PostMapping("/cart/submitOrder")
-    public String confirmOrder(OrderData orderData, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String confirmOrder(OrderDataDTO orderDataDTO, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        Order order = cartService.getOrderByOrderData(orderData);
+        Order order = cartService.getOrderByOrderData(orderDataDTO);
         model.addAttribute("sum", order.getSum());
         model.addAttribute("ois", order.getOrderItems());
         session.setAttribute("order", order);

@@ -14,7 +14,7 @@ import java.util.List;
  * created by zwq on 2018/5/10
  */
 @Service
-public class UserServiceImpl implements UserService,Serializable{
+public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
     private ProtostuffRedisClient redisClient;
@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService,Serializable{
     }
 
     @Override
-    @Transactional
     public User add(User user) {
         int state = userDao.add(user);
         String key = "user:" + user.getName();
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService,Serializable{
         }
         return user;
     }
-    @Transactional
+    @Override
     public int updatePassword(User user) {
         int state = userDao.updatePassword(user);
         if (state == 1) {
