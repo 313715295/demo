@@ -53,31 +53,18 @@ public class OrderServiceImpl implements OrderSerivce {
         return order;
     }
 
-
     @Override
     @Transactional
     public Order addOrderWithAll(Order order) {
         orderDao.add(order);
         int id = order.getId();
-        int uid = order.getUser().getId();
         List<OrderItem> orderItems = order.getOrderItems();
         for (OrderItem orderItem : orderItems) {
             orderItem.setOid(id);
         }
         orderItemDao.addByList(orderItems);
         teaDao.updateStocksByList(orderItems);
-        String key = "order:" + id;
-        redisClient.setWithExpire(key, order, 3600);
-        String key2 = "order_uid:" + uid;
-        List<Order> orders = redisClient.getList(key2, Order.class);
-        if (orders == null) {
-            orders = orderDao.selectByUser(uid);
-            if (orders.size()==1) {
-                orders = new ArrayList<>();
-            }
-        }
-        orders.add(order);
-        redisClient.setListWithExpire(key2, orders, 3600);
+        //因为这个方法是事务方法，为了缩短事务时间，把更新缓存的逻辑放到daoservice的包装方法中去了
         return order;
     }
 
@@ -87,7 +74,7 @@ public class OrderServiceImpl implements OrderSerivce {
         List<Order> orders = redisClient.getList(key, Order.class);
         if (orders == null) {
             orders = orderDao.selectByUser(uid);
-            if (orders != null && orders.size() != 0) {
+            if (orders.size() != 0) {
                 redisClient.setListWithExpire(key, orders, 3600);
             }
         }

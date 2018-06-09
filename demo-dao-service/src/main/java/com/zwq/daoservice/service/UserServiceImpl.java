@@ -43,13 +43,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public int delete(int id) {
         return 0;
     }
 
     @Override
+    @Transactional
     public User add(User user) {
-        int state = userDao.add(user);
+        userDao.add(user);
         String key = "user:" + user.getName();
         redisClient.setWithExpire(key, user, 3600);
         return user;
@@ -79,6 +81,7 @@ public class UserServiceImpl implements UserService{
         return user;
     }
     @Override
+    @Transactional
     public int updatePassword(User user) {
         int state = userDao.updatePassword(user);
         if (state == 1) {

@@ -42,17 +42,20 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
+    @Transactional
     public int delete(int id) {
         return teaDao.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Tea add(Tea tea) {
         teaDao.add(tea);
         return tea;
     }
 
     @Override
+    @Transactional
     public int Update(Tea tea) {
 
         return teaDao.update(tea);

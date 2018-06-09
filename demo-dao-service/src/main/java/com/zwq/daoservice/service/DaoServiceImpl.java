@@ -1,12 +1,15 @@
 package com.zwq.daoservice.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.zwq.daoservice.dao.redisClient.ProtostuffRedisClient;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.service.*;
+import com.zwq.parent.service.DaoService;
+import com.zwq.parent.service.OrderSerivce;
+import com.zwq.parent.service.TeaService;
+import com.zwq.parent.service.UserService;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,11 +22,13 @@ public class DaoServiceImpl implements DaoService {
     private OrderSerivce orderSerivce;
     private UserService userService;
     private TeaService teaService;
+    private ProtostuffRedisClient redisClient;
 
-    public DaoServiceImpl(OrderSerivce orderSerivce, UserService userService, TeaService teaService) {
+    public DaoServiceImpl(OrderSerivce orderSerivce, UserService userService, TeaService teaService, ProtostuffRedisClient redisClient) {
         this.orderSerivce = orderSerivce;
         this.userService = userService;
         this.teaService = teaService;
+        this.redisClient = redisClient;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class DaoServiceImpl implements DaoService {
 
     @Override
     public User addUser(User user) {
-        return  userService.add(user);
+        return userService.add(user);
     }
 
     @Override
@@ -52,11 +57,21 @@ public class DaoServiceImpl implements DaoService {
     }
 
 
-
     @Override
-    @Transactional
     public Order addOrderWithAll(Order order) {
-        return orderSerivce.addOrderWithAll(order);
+        Order order1 = orderSerivce.addOrderWithAll(order);
+        String key = "order:" + order1.getId();
+        redisClient.setWithExpire(key, order1, 3600);
+        int uid = order1.getUser().getId();
+        String key2 = "order_uid:" + uid;
+        List<Order> orders = redisClient.getList(key2, Order.class);
+        if (orders == null) {
+            orderSerivce.selectByUser(uid);
+        } else {
+            orders.add(order1);
+            redisClient.setListWithExpire(key2,orders,3600);
+        }
+        return order1;
     }
 
     @Override
@@ -69,8 +84,6 @@ public class DaoServiceImpl implements DaoService {
     public List<Order> seletcOrdersByUser(int uid) {
         return orderSerivce.selectByUser(uid);
     }
-
-
 
 
     @Override

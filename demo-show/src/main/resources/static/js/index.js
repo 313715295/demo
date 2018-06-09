@@ -44,7 +44,7 @@ var main = {
         productEditor: function () {
             return '/admin/productAdmin/productEditor';
         },
-        productDel:function (id) {
+        productDel: function (id) {
             return '/admin/productAdmin/' + id + '/delete';
         }
 
@@ -67,7 +67,7 @@ var main = {
                 main.sign.showReg();
             });
             signOut.click(function () {
-               signOut.attr("disabled","disabled");
+                signOut.attr("disabled", "disabled");
                 $.post(main.URL.clear(), {}, function () {
                     signOut.removeAttr("disabled");
                     window.location.assign(main.URL.showIndex());
@@ -177,7 +177,7 @@ var main = {
             var modalMessage = $("#message-1");
             modalMessage.html(message);
             myModal.modal({
-                show:true,
+                show: true,
                 backdrop: 'static',
                 keyboard: false
             });
@@ -221,7 +221,7 @@ var main = {
                         }
                     });
                 }
-               log.removeAttr("disabled");
+                log.removeAttr("disabled");
             });
         },
         loginCheck: function () {
@@ -457,31 +457,32 @@ var main = {
             allTotal.html(sum1);
             $("#totalMoney").val(sum1);
         },
-        submitOrder: function (user) {
+        submitOrder: function () {
+            // return false;
             var money = $("#totalMoney").val();
             var submitOrder = $("#submitOrder");
-            submitOrder.click(function () {
-                submitOrder.attr("disabled", "disabled");
-
-
-                if (user == null) {
-                    $("#myModal-2").on('hide.bs.modal', function () {
-                        submitOrder.removeAttr("disabled");
-                    });
-                    main.sign.showLog();
-                } else if (money == null || money === '0') {
-                    $("#myModal-1").on('hide.bs.modal', function () {
-                        submitOrder.removeAttr("disabled");
-                    });
-                    main.page.showDialog("您还没购买东西，请先购买");
-
-                } else {
-                    submitOrder.attr('type', 'submit');
+            // submitOrder.click(function () {
+            submitOrder.attr("disabled", "disabled");
+            // if (user == null) {
+            //     $("#myModal-2").on('hide.bs.modal', function () {
+            //         submitOrder.removeAttr("disabled");
+            //     });
+            //     main.sign.showLog();
+            //     return false;
+            // } else
+            if (money == null || money === '0') {
+                $("#myModal-1").on('hide.bs.modal', function () {
                     submitOrder.removeAttr("disabled");
-                    submitOrder.click();
-                }
-
-            });
+                });
+                main.page.showDialog("您还没购买东西，请先购买");
+                return false;
+            } else {
+                // submitOrder.attr('type', 'submit');
+                submitOrder.removeAttr("disabled");
+                // submitOrder.click();
+                return true;
+            }
+            // });
         },
         confirmOrder: function (user) {
             var confirmOrder = $("#confirmOrder");
@@ -500,7 +501,7 @@ var main = {
                             confirmOrder.removeAttr("disabled");
                         });
                         main.page.showDialog(message);
-                        if(result['stateInfo']==='登录超时'||result['stateInfo']==='数据失效') {
+                        if (result['stateInfo'] === '登录超时' || result['stateInfo'] === '数据失效') {
                             myModal.on('hide.bs.modal', function () {
                                 window.location.reload();
                             })
@@ -562,7 +563,7 @@ var main = {
             } else if (isNaN(stocks)) {
                 editorMessage.html("错误提示：更新库存必须为数字(增加为正数，减少为负数)");
                 return false;
-            }  else {
+            } else {
                 editorMessage.html("");
                 return true;
             }
@@ -678,7 +679,7 @@ var main = {
                     var productId = $("#productId" + index).val();
                     productDel.attr("disabled", "disabled");
                     if (confirm("确认删除？")) {
-                        $.post(main.URL.productDel(productId),{},function (result) {
+                        $.post(main.URL.productDel(productId), {}, function (result) {
                             main.page.showDialogCantDrop(result['stateInfo']);
                             if (result['result']) {
                                 $("#myModal-1").on('hide.bs.modal', function () {

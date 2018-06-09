@@ -12,6 +12,7 @@
             <result column="u_name" property="name"/>
         </association>
         <collection property="orderItems" ofType="OrderItem">
+            <id column="oi_id" property="id"/>
             <result column="count" property="count"/>
             <association property="tea" javaType="Tea">
                 <result column="t_name" property="name"/>
@@ -25,11 +26,13 @@
     <select id="listAllWithUserAndTea" resultMap="orderBean">
         SELECT
             o.*,
+            oi.id,
             oi.count,
             u.name,
             t.name,
             t.price,
             t.img,
+            oi.id 'oi_id',
             u.name 'u_name',
             t.name 't_name'
         FROM order_ o
@@ -43,11 +46,13 @@
 
         SELECT
             o.*,
+            oi.id,
             oi.count,
             u.name,
             t.name,
             t.price,
             t.img,
+            oi.id 'oi_id',
             u.name 'u_name',
             t.name 't_name'
         FROM order_ o
@@ -60,11 +65,13 @@
     <select id="selectByIdWithAll" resultMap="orderBean">
         SELECT
             o.*,
+            oi.id,
             oi.count,
             u.name,
             t.name,
             t.price,
             t.img,
+            oi.id 'oi_id',
             u.name 'u_name',
             t.name 't_name'
         FROM order_ o

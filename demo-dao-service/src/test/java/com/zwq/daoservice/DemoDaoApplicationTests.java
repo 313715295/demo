@@ -26,12 +26,12 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 public class DemoDaoApplicationTests {
 
-//	@Autowired
-//	private OrderSerivce orderSerivce;
+	@Autowired
+	private OrderSerivce orderSerivce;
 //	@Autowired
 //    private UserService userService;
-    @Autowired
-    private TeaService teaService;
+//    @Autowired
+//    private TeaService teaService;
 //
 
 	@Test
@@ -51,6 +51,8 @@ public class DemoDaoApplicationTests {
 //        order.setOrderItems(orderItems);
 //        order.setSum(199);
 //        orderSerivce.addOrderWithAll(order);
+		List<Order> orders = orderSerivce.selectByUser(2);
+		System.out.println(orders);
 
 	}
 

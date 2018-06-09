@@ -26,7 +26,7 @@
     </delete>
 
     <insert id="add" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-        insert  user (name,password) value (#{name},#{password})
+        insert  user (name,password,autho) value (#{name},#{password},#{autho})
     </insert>
 
     <update id="update" parameterType="User">
