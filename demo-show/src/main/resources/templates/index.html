@@ -107,14 +107,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <button class="btn btn-default btn-sm" th:id="'dec'+${inStat.index}"><span
-                                    class="glyphicon glyphicon-minus"></span></button>
-                            <input th:id="'count'+${inStat.index}" type="text" value="1"
-                                   style="width: 15%;text-align: center">
-                            <button class="btn btn-default  btn-sm" th:id="'add'+${inStat.index}"><span
-                                    class="glyphicon glyphicon-plus"></span></button>
-
+                        <td align="center">
+                            <div class="input-group" style="width: 150px">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" th:id="'dec'+${inStat.index}">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                </div>
+                                <input style="text-align: center" type="text" class="form-control" value="1" th:id="'count'+${inStat.index}">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" th:id="'add'+${inStat.index}">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>

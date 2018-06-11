@@ -139,8 +139,12 @@ var main = {
                 count.change(function () {
                     var tCount = count.val();
                     if (tCount <= 0 || isNaN(tCount)) {
-                        main.page.showDialog("数量必须为大于0的数字");
+                        main.page.showDialog("数量必须为大于0的整数");
                         count.val(1);
+                    }//只判断值是否相等
+                    else if (parseInt(tCount,10)!=tCount) {
+                        main.page.showDialog("数量必须为整数");
+                        count.val(parseInt(tCount,10));
                     }
                 });
                 cart.click(function () {
@@ -438,38 +442,39 @@ var main = {
                 });
                 count.change(function () {
                     var value = $(this).val();
+                    var checkValue = parseInt(value, 10);
                     if (value <= 0 || isNaN(value)) {
-                        main.page.showDialog("数量必须为大于0的数字");
-                        count.val(1)
+                        main.page.showDialog("数量必须为大于0的整数");
+                        count.val(1);
+                        calculate(1);
+                    //只判断值是否相等
+                    }else if (checkValue!=value) {
+                        main.page.showDialog("数量必须整数");
+                        count.val(checkValue);
+                        calculate(checkValue);
                     } else {
-                        var text = price.html() * value;
-                        total.html(text);
-                        var sum = 0;
-                        $(".total").each(function () {
-                            var tSum = $(this).html();
-                            sum += Number(tSum);
-                        });
-                        allTotal.html(sum);
-                        $("#totalMoney").val(sum);
+                        calculate(value);
                     }
                 });
+                function calculate(value) {
+                    var text = price.html() * value;
+                    total.html(text);
+                    var sum = 0;
+                    $(".total").each(function () {
+                        var tSum = $(this).html();
+                        sum += Number(tSum);
+                    });
+                    allTotal.html(sum);
+                    $("#totalMoney").val(sum);
+                }
             });
             allTotal.html(sum1);
             $("#totalMoney").val(sum1);
         },
         submitOrder: function () {
-            // return false;
             var money = $("#totalMoney").val();
             var submitOrder = $("#submitOrder");
-            // submitOrder.click(function () {
             submitOrder.attr("disabled", "disabled");
-            // if (user == null) {
-            //     $("#myModal-2").on('hide.bs.modal', function () {
-            //         submitOrder.removeAttr("disabled");
-            //     });
-            //     main.sign.showLog();
-            //     return false;
-            // } else
             if (money == null || money === '0') {
                 $("#myModal-1").on('hide.bs.modal', function () {
                     submitOrder.removeAttr("disabled");
@@ -477,12 +482,9 @@ var main = {
                 main.page.showDialog("您还没购买东西，请先购买");
                 return false;
             } else {
-                // submitOrder.attr('type', 'submit');
                 submitOrder.removeAttr("disabled");
-                // submitOrder.click();
                 return true;
             }
-            // });
         },
         confirmOrder: function (user) {
             var confirmOrder = $("#confirmOrder");

@@ -16,7 +16,6 @@
             var user = [[${session.user}]];
             main.page.head(user);
             main.cart.showCart();
-            // main.cart.submitOrder(user);
         });
 
     </script>
@@ -45,13 +44,17 @@
                 <td style="vertical-align: middle">
                     单价：<span th:id="'cartPrice'+${inStat.index}" th:text="${orderItem.getTea().getPrice()}"></span> 元
                 </td>
-                <td style="vertical-align: middle">
-                    <input type="button" th:id="'cartDec'+${inStat.index}" value="-">
-                    <input th:id="'cartCount'+${inStat.index}" type="text" th:value="${orderItem.getCount()}"
-                           style="width: 10%;text-align: center"
-                           th:name="'teaDatas['+${inStat.index}+'].count'">
-                    <input type="button" th:id="'cartAdd'+${inStat.index}" value="+">
-                    斤
+                <td style="vertical-align: middle" align="center">
+                    <div class="input-group" style="width: 120px">
+                        <div class="input-group-btn">
+                            <input type="button" class="btn btn-default" th:id="'cartDec'+${inStat.index}" value="-">
+                        </div>
+                        <input style="text-align: center" type="text" class="form-control" th:value="${orderItem.getCount()}"
+                               th:id="'cartCount'+${inStat.index}" th:name="'teaDatas['+${inStat.index}+'].count'">
+                        <div class="input-group-btn">
+                            <input type="button" class="btn btn-default" th:id="'cartAdd'+${inStat.index}" value="+">
+                        </div>
+                    </div>
                 </td>
                 <td style="vertical-align: middle">
                     总价：<span class="total" style="color: orangered" th:id="'cartTotal'+${inStat.index}"
