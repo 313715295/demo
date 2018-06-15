@@ -60,7 +60,6 @@
                 库存：<span  th:id="'productStocks'+${inStat.index}" th:text="${tea.getStocks()}" style="padding: 15px"> 斤</span>
             </td>
             <td style="width: 25%;vertical-align: middle">
-
                 <form>
                     <input type="hidden" th:value="${tea.getId()}" name="id" class="teaID"  th:id="'productId'+${inStat.index}">
                     <div  class="btn-group btn-group-lg" role="group">

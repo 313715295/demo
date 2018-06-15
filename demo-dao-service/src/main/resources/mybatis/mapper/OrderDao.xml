@@ -59,7 +59,7 @@
             INNER JOIN orderitem_ oi ON oi.oid = o.id
             INNER JOIN user u ON o.uid = u.id
             INNER JOIN tea t ON oi.tid = t.id
-        where o.uid = #{uid}
+        where o.uid = #{uid}  order by o.id desc
     </select>
 
     <select id="selectByIdWithAll" resultMap="orderBean">

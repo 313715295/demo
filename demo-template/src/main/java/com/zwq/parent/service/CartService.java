@@ -45,4 +45,11 @@ public interface CartService {
      * @return
      */
     Result<Order> submitOrder(User user, Order order);
+
+    /**
+     * 向消息队列传输一个对象。
+     * @param destinationName
+     * @param o
+     */
+    void sendMsgToAddOrder(String destinationName, Object o);
 }

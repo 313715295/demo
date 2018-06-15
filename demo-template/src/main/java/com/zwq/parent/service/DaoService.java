@@ -61,11 +61,19 @@ public interface DaoService {
     Order addOrderWithAll(Order order);
 
     /**
+     * 使用消息队列方式获取数据，添加订单
+     * @param message
+     */
+    void addOrderWithMessage(byte[] message);
+
+    /**
      * 查询订单，返回订单详细数据
+     *
      * @param id
      * @return
      */
     Order selectOrderByIdWithAll(int id);
+
 
     /**
      * 查询当前用户下的所有订单

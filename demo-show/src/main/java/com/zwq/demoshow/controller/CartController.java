@@ -38,9 +38,8 @@ public class CartController {
     public Result<Map<Integer, Integer>> addCartItem(HttpServletRequest request, @PathVariable("id") Integer id, @PathVariable("count") Integer count) {
         Map<Integer, Integer> map = MapUtil.getMap(request);
         Result<Map<Integer, Integer>> result = cartService.addCartItem(map,id,count);
-        map = result.getData();
         if (result.isResult()) {
-            request.getSession().setAttribute("map",map);
+            request.getSession().setAttribute("map",result.getData());
         }
         return result;
     }
@@ -89,11 +88,12 @@ public class CartController {
     @ResponseBody
     public Result<Order> submitOrder(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Order order = (Order) session.getAttribute("order");
         User user = (User) session.getAttribute("user");
+        Order order = (Order) session.getAttribute("order");
         Result<Order> result = cartService.submitOrder(user,order);
         if (result.isResult()) {
             session.removeAttribute("order");
+            session.removeAttribute("map");
         }
         return result;
     }

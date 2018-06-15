@@ -28,7 +28,7 @@ public class OrderController {
 
     @GetMapping("/order/{id}/show")
     @SuppressWarnings("unchecked")
-    public String submitOrder(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+    public String showOrder(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -39,7 +39,8 @@ public class OrderController {
             if (order == null ) {
                 response.sendRedirect("/index");
                 return null;
-            } else if (!order.getUser().getId().equals(user.getId())) {
+//                因为注入order的User属性的时候只注入了用户名，所以对比用户名
+            } else if (!order.getUser().getName().equals(user.getName())) {
                 response.sendRedirect("/index");
                 return null;
             }
@@ -50,7 +51,7 @@ public class OrderController {
 
 
     @GetMapping("/{uid}/orderCenter")
-    public String showOrder(@PathVariable("uid") int uid, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+    public String showOrderCenter(@PathVariable("uid") int uid, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {

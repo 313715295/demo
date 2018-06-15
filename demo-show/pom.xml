@@ -53,6 +53,8 @@
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 		</dependency>
+
+		<!--公共依赖，dubbo、service接口等-->
 		<dependency>
 			<groupId>com.zwq</groupId>
 			<artifactId>demo-parent</artifactId>

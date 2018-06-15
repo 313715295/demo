@@ -12,8 +12,10 @@ import com.zwq.parent.dto.dto.TeaData;
 import com.zwq.parent.enums.CartEnum;
 import com.zwq.parent.service.CartService;
 import com.zwq.parent.service.DaoService;
+import com.zwq.parent.util.ProtoStuffUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.*;
@@ -25,9 +27,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Service(interfaceClass = CartService.class)
 public class CartServiceImpl implements CartService {
-
+    private static final String ADD_ORDER_QUEUE = "addOrder.queue";
     @Reference
     private DaoService daoService;
+    @Autowired
+    private JmsMessagingTemplate jms;
+
 
 
     @Override
@@ -91,9 +96,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
     public Result<Order> submitOrder(User user, Order order) {
-
         if (user == null) {
             return new Result<>(false, "登录超时", null);
         }
@@ -118,13 +121,16 @@ public class CartServiceImpl implements CartService {
             String message = TeaNames + "库存不足";
             return new Result<>(false, message, null);
         } else {
-            Order order1 = daoService.addOrderWithAll(order);
-            if (order1 != null) {
-                return new Result<>(true, "成功提交订单", order1);
-            }
-            return new Result<>(false, "系统异常", null);
+            sendMsgToAddOrder(ADD_ORDER_QUEUE,order);
+            return new Result<>(true, "成功提交订单", null);
 
         }
     }
+
+    @Override
+    public void sendMsgToAddOrder(String destinationName, Object o) {
+        byte[] data = ProtoStuffUtil.serialize(o);
+        jms.convertAndSend(destinationName, data);
+}
 
 }

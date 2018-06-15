@@ -9,6 +9,8 @@ import com.zwq.parent.service.DaoService;
 import com.zwq.parent.service.OrderSerivce;
 import com.zwq.parent.service.TeaService;
 import com.zwq.parent.service.UserService;
+import com.zwq.parent.util.ProtoStuffUtil;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -68,10 +70,18 @@ public class DaoServiceImpl implements DaoService {
         if (orders == null) {
             orderSerivce.selectByUser(uid);
         } else {
-            orders.add(order1);
+            orders.add(0,order1);
             redisClient.setListWithExpire(key2,orders,3600);
         }
         return order1;
+    }
+
+    @Override
+    @JmsListener(destination = "addOrder.queue")
+    public void addOrderWithMessage(byte[] data) {
+        Order order = ProtoStuffUtil.deserialize(data, Order.class);
+        addOrderWithAll(order);
+
     }
 
     @Override

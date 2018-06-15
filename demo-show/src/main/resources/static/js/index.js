@@ -508,10 +508,12 @@ var main = {
                                 window.location.reload();
                             })
                         }
+                        //如果下单成功，跳转至提示下单成功页，并且几秒后跳转或返回商家，暂时没做跳转页面，
+                        //直接跳转订单中心了
                         if (result['result']) {
-                            var id = result['data'].id;
+                            // var id = result['data'].id;
                             myModal.on('hide.bs.modal', function () {
-                                window.location.assign(main.URL.showOrder(id));
+                                window.location.assign(main.URL.orderCenter(user.id));
                             })
                         }
                     });
@@ -519,7 +521,19 @@ var main = {
             });
         }
     },
+    order:{
+        orderCenter:function () {
+            $(".orderId").each(function (index) {
+                var orderIdInput = $("#orderId" + index);
+                var orderDetails = $("#orderDetails" + index);
+                orderDetails.click(function () {
+                    var orderId = orderIdInput.val();
+                    window.location.assign(main.URL.showOrder(orderId));
+                })
+            })
+        }
 
+    },
     admin: {
         productNameCheck: function () {
             var editorMessage = $("#editorMessage");
