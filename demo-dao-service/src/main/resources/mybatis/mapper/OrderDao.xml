@@ -99,7 +99,7 @@
 
     <insert id="add" parameterType="Order" keyProperty="id" useGeneratedKeys="true">
 
-        INSERT IGNORE INTO order_ (creatTime, code, uid, sum) VALUES (#{creatTime}, #{code}, #{user.id}, #{sum})
+        INSERT  INTO order_ (creatTime, code, uid, sum) VALUES (#{creatTime}, #{code}, #{user.id}, #{sum})
 
     </insert>
 

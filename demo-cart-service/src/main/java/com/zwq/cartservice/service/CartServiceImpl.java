@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -104,7 +105,8 @@ public class CartServiceImpl implements CartService {
             return new Result<>(false, "数据失效", null);
         }
         order.setUser(user);
-        order.setCreatTime(Instant.now().plusMillis(TimeUnit.HOURS.toMillis(8)));
+        Instant instant = Instant.now();
+        order.setCreatTime(instant);
         List<OrderItem> orderItems = order.getOrderItems();
         List<String> TeaNames = new ArrayList<>();
         for (OrderItem orderItem : orderItems) {

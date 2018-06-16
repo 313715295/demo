@@ -1,8 +1,9 @@
 package com.zwq.parent.domain;
 
+import com.zwq.parent.util.DateFormatUtil;
+
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class Order implements Serializable {
 
     private Integer id;
     private User user;
-    private Instant creatTime;
+    private String creatTime;
     private String code;
     private Integer sum;
     private List<OrderItem> orderItems;
@@ -40,12 +41,12 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public Instant getCreatTime() {
+    public String getCreatTime() {
         return creatTime;
     }
 
-    public void setCreatTime(Instant creatTime) {
-        this.creatTime = creatTime;
+    public void setCreatTime(Instant instant) {
+        this.creatTime = DateFormatUtil.dateFormat(instant);
     }
 
     public String getCode() {

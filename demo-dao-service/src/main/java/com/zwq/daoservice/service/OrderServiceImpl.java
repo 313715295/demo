@@ -84,7 +84,8 @@ public class OrderServiceImpl implements OrderSerivce {
 
     @Override
     public Order add(Order order) {
-        return null;
+        orderDao.add(order);
+        return order;
     }
 
     @Override
