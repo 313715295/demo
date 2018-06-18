@@ -1,7 +1,7 @@
 package com.zwq.parent.service;
 
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.Result;
 
 /**
  * created by zwq on 2018/6/5

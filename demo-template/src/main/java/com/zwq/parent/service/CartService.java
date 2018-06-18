@@ -4,8 +4,8 @@ package com.zwq.parent.service;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.OrderItem;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.OrderDataDTO;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.OrderDataDTO;
+import com.zwq.parent.dto.Result;
 
 import java.util.List;
 import java.util.Map;

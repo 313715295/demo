@@ -1,7 +1,6 @@
 package com.zwq.parent.service;
 
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.Result;
 
 import java.util.List;
 

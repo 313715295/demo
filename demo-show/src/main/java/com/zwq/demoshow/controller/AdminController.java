@@ -5,8 +5,8 @@ import com.zwq.demoshow.util.AuthoUtil;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.ProductNameCheck;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.ProductNameCheck;
+import com.zwq.parent.dto.Result;
 import com.zwq.parent.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

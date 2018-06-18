@@ -1,4 +1,4 @@
-package com.zwq.parent.dto.dto;
+package com.zwq.parent.dto;
 
 import java.io.Serializable;
 

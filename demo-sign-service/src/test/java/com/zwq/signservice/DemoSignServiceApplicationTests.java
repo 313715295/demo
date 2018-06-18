@@ -2,7 +2,7 @@ package com.zwq.signservice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.Result;
 import com.zwq.parent.service.SignService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -3,7 +3,7 @@ package com.zwq.signservice.service;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.Result;
 import com.zwq.parent.service.DaoService;
 import com.zwq.parent.service.SignService;
 import org.springframework.stereotype.Component;

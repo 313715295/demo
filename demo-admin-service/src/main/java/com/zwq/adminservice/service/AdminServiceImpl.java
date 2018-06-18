@@ -5,14 +5,13 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.ProductNameCheck;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.ProductNameCheck;
+import com.zwq.parent.dto.Result;
 import com.zwq.parent.service.AdminService;
 import com.zwq.parent.service.DaoService;
 import com.zwq.parent.util.FileUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;

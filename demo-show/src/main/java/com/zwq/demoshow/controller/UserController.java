@@ -2,7 +2,7 @@ package com.zwq.demoshow.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.Result;
 import com.zwq.parent.service.SignService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

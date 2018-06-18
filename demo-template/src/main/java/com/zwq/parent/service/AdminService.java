@@ -3,8 +3,8 @@ package com.zwq.parent.service;
 import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.ProductNameCheck;
-import com.zwq.parent.dto.dto.Result;
+import com.zwq.parent.dto.ProductNameCheck;
+import com.zwq.parent.dto.Result;
 
 import java.util.List;
 import java.util.Map;

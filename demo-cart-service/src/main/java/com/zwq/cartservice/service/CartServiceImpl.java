@@ -6,9 +6,9 @@ import com.zwq.parent.domain.Order;
 import com.zwq.parent.domain.OrderItem;
 import com.zwq.parent.domain.Tea;
 import com.zwq.parent.domain.User;
-import com.zwq.parent.dto.dto.OrderDataDTO;
-import com.zwq.parent.dto.dto.Result;
-import com.zwq.parent.dto.dto.TeaData;
+import com.zwq.parent.dto.OrderDataDTO;
+import com.zwq.parent.dto.Result;
+import com.zwq.parent.dto.TeaData;
 import com.zwq.parent.enums.CartEnum;
 import com.zwq.parent.service.CartService;
 import com.zwq.parent.service.DaoService;
@@ -17,10 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * created by zwq on 2018/6/4
