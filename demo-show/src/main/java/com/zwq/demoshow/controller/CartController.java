@@ -71,7 +71,7 @@ public class CartController {
     confirmOrder页面传值这里采取的是seesion传值，还可以考虑用ajax传值。
      */
     @PostMapping("/cart/submitOrder")
-    public String confirmOrder(OrderDataDTO orderDataDTO, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String confirmOrder(OrderDataDTO orderDataDTO, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         Order order = cartService.getOrderByOrderData(orderDataDTO);
         model.addAttribute("sum", order.getSum());

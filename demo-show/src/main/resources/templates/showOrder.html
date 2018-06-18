@@ -31,7 +31,7 @@
         <thead style="font-size: 20px;font-weight: bold">
         <tr>
             <td colspan="2">订单编号：<span id="code" th:text="${Order}?${Order.getCode()}:''">666</span></td>
-            <td colspan="2">订单创建时间: <span th:text="${Order}?${Order.getCreatTime()}:''"></span></td>
+            <td colspan="2">订单创建时间: <span th:text="${Order}?${Order.getCreatTimeStr()}:''"></span></td>
             <td colspan="1">订单总金额：￥<span id="sum" th:text="${Order}?${Order.getSum()}:''" class="text-primary"></span></td>
         </tr>
         <tr>

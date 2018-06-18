@@ -13,7 +13,7 @@ public class Order implements Serializable {
 
     private Integer id;
     private User user;
-    private String creatTime;
+    private Instant creatTime;
     private String code;
     private Integer sum;
     private List<OrderItem> orderItems;
@@ -41,12 +41,16 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public String getCreatTime() {
+    public Instant getCreatTime() {
         return creatTime;
     }
 
-    public void setCreatTime(Instant instant) {
-        this.creatTime = DateFormatUtil.dateFormat(instant);
+    public void setCreatTime(Instant creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public String getCreatTimeStr() {
+        return DateFormatUtil.dateFormat(creatTime);
     }
 
     public String getCode() {

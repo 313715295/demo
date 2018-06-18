@@ -55,7 +55,7 @@
             <thead style="font-size: 20px;font-weight: bold">
             <tr class="active">
                 <input type="hidden" th:value="${order.getId()}" th:id="'orderId'+${inStat1.index}" class="orderId">
-                <td colspan="3" th:text="${order.getCreatTime()}">
+                <td colspan="3" th:text="${order.getCreatTimeStr()}">
                 </td>
                 <td colspan="3" style="text-align: left;padding-left: 20px"> 订单号：</td>
             </tr>

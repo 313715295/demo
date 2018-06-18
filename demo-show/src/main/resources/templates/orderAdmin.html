@@ -63,7 +63,7 @@
                        th:each="order,instat2 : ${dates.get(user)}">
                     <thead style="font-size: 20px;font-weight: bold;text-align: left">
                     <tr class="active">
-                        <td colspan="2">订单创建时间：<span th:text="${order.getCreatTime()}"></span></td>
+                        <td colspan="2">订单创建时间：<span th:text="${order.getCreatTimeStr()}"></span></td>
                         <td colspan="3" style="padding-left: 20px"> 订单号：</td>
                     </tr>
                     </thead>
