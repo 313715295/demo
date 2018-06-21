@@ -1,11 +1,12 @@
 package com.zwq.signservice.service;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.zwq.parent.domain.User;
+import com.zwq.commons.enums.ExceptionEnum;
+import com.zwq.commons.enums.SuccessEnum;
+import com.zwq.parent.ModulesService.SignService;
 import com.zwq.parent.dto.Result;
-import com.zwq.parent.service.DaoService;
-import com.zwq.parent.service.SignService;
+import com.zwq.pojo.User;
+import com.zwq.service.UserService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,40 +16,42 @@ import org.springframework.stereotype.Component;
 @Service(interfaceClass = SignService.class)
 public class SignServiceIpml implements SignService{
 
-    @Reference
-    private DaoService daoService;
+    private UserService userService;
 
+    public SignServiceIpml(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public Result<User> logChecking(User user) {
 
-        User user1 = daoService.selectUserByName(user.getName());
+        User user1 = userService.selectByName(user.getName());
         if (user1 != null&&user.getPassword().equals(user1.getPassword())) {
-            return new Result<>(true,"登录成功",user1);
+            return new Result<>(true, SuccessEnum.LOGIN_SUCCESS,user1);
         }
-        return new Result<>(false,"账号或密码错误",null);
+        return new Result<>(false, ExceptionEnum.LOGIN_FAIL,null);
 
     }
 
     @Override
-    public Result<User> registerChecking(String name) {
-        User user = daoService.selectUserByName(name);
+    public Result registerChecking(String name) {
+        User user = userService.selectByName(name);
         if (user != null) {
-            return new Result<>(false, "账号已存在", null);
+            return new Result<>(false, ExceptionEnum.USERNAME_REPEAT, null);
         }
-        return new Result<>(true, "账号可以使用", null);
+        return new Result<>(true, SuccessEnum.USERNAME_SUCCESS, null);
 
     }
 
 
     @Override
-    public Result<User> changePassword(User user) {
+    public Result changePassword(User user) {
 
-        int state = daoService.updateUserPassword(user);
+        int state = userService.updatePassword(user);
         if (state == 1) {
-            return new Result<>(true, "修改密码成功", user);
+            return new Result<>(true, SuccessEnum.EDITOR_PASSWORD_SUCCESS, null);
         } else {
-            return new Result<>(false, "修改密码失败", null);
+            return new Result<>(false, ExceptionEnum.EDITOR_PASSWORD_FAIL, null);
         }
 
     }
@@ -56,10 +59,10 @@ public class SignServiceIpml implements SignService{
     @Override
     public Result<User> register(User user) {
         try {
-            User user1 = daoService.addUser(user);
-            return new Result<>(true, "注册成功", user1);
+            userService.add(user);
+            return new Result<>(true, SuccessEnum.REGISTER_SUCCESS, user);
         } catch (Exception e) {
-            return new Result<>(false, "系统异常", null);
+            return new Result<>(false, ExceptionEnum.INNER_ERROR, null);
         }
     }
 }

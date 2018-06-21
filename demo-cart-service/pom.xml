@@ -3,19 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.zwq</groupId>
 	<artifactId>demo-cart-service</artifactId>
-	<version>2.0-SNAPSHOT</version>
+	<version>3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>demo-cart-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>com.zwq</groupId>
+		<artifactId>demo</artifactId>
+		<version>3.0-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -25,32 +23,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!--activeMQ依赖-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-activemq</artifactId>
-		</dependency>
-		<!--如果要用pool必须加这个依赖-->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-pool</artifactId>
-			<version>5.15.3</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.zwq</groupId>
-			<artifactId>demo-parent</artifactId>
-			<version>2.0-SNAPSHOT</version>
+			<artifactId>demo-modules-parent</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
 

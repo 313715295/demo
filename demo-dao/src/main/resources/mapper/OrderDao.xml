@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwq.dao.mapper.OrderDao">
+    <resultMap id="orderBean" type="Order">
+        <id column="id" property="id"/>
+        <result column="creatTime" property="creatTime"/>
+        <result column="code" property="code"/>
+        <result column="sum" property="sum"/>
+        <association property="user" javaType="User">
+            <result column="u_name" property="name"/>
+        </association>
+        <collection property="orderItems" ofType="OrderItem">
+            <id column="oi_id" property="id"/>
+            <result column="count" property="count"/>
+            <association property="tea" javaType="Tea">
+                <result column="t_name" property="name"/>
+                <result column="price" property="price"/>
+                <result column="img" property="img"/>
+            </association>
+        </collection>
+    </resultMap>
+
+
+    <select id="listAllWithUserAndTea" resultMap="orderBean">
+        SELECT
+            o.*,
+            oi.id,
+            oi.count,
+            u.name,
+            t.name,
+            t.price,
+            t.img,
+            oi.id 'oi_id',
+            u.name 'u_name',
+            t.name 't_name'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON oi.oid = o.id
+            INNER JOIN user u ON o.uid = u.id
+            INNER JOIN tea t ON oi.tid = t.id
+
+    </select>
+
+    <select id="selectByUser" resultMap="orderBean">
+
+        SELECT
+            o.*,
+            oi.id,
+            oi.count,
+            u.name,
+            t.name,
+            t.price,
+            t.img,
+            oi.id 'oi_id',
+            u.name 'u_name',
+            t.name 't_name'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON oi.oid = o.id
+            INNER JOIN user u ON o.uid = u.id
+            INNER JOIN tea t ON oi.tid = t.id
+        where o.uid = #{uid}  order by o.id desc
+    </select>
+
+    <select id="selectByIdWithAll" resultMap="orderBean">
+        SELECT
+            o.*,
+            oi.id,
+            oi.count,
+            u.name,
+            t.name,
+            t.price,
+            t.img,
+            oi.id 'oi_id',
+            u.name 'u_name',
+            t.name 't_name'
+        FROM order_ o
+            INNER JOIN orderitem_ oi ON oi.oid = o.id
+            INNER JOIN user u ON o.uid = u.id
+            INNER JOIN tea t ON oi.tid = t.id
+        where o.id = #{id}
+    </select>
+    <select id="selectById" resultType="Order">
+        SELECT *
+        FROM order_
+        WHERE id = #{id}
+    </select>
+
+    <select id="listAll" resultType="Order">
+        SELECT *
+        FROM order_
+    </select>
+
+
+    <delete id="deleteById">
+        DELETE FROM order_
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="add" parameterType="Order" keyProperty="id" useGeneratedKeys="true">
+
+        INSERT  INTO order_ (creatTime, code, uid, sum) VALUES (#{creatTime}, #{code}, #{user.id}, #{sum})
+
+    </insert>
+
+
+</mapper>

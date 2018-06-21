@@ -5,8 +5,8 @@
 
 	<groupId>com.zwq</groupId>
 	<artifactId>demo</artifactId>
-	<version>2.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>3.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -14,40 +14,116 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
+		<version>2.0.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
+	<modules>
+		<module>demo-commons</module>
+		<module>demo-pojo</module>
+		<module>demo-dao</module>
+		<module>demo-dao-service</module>
+		<module>demo-dao-simpl</module>
+		<module>demo-modules-parent</module>
+		<module>demo-cart-service</module>
+		<module>demo-sign-service</module>
+		<module>demo-admin-service</module>
+		<module>demo-order-service</module>
+		<module>demo-web</module>
+	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>8</java.version>
+		<java.version>1.8</java.version>
+		<druid.version>1.1.10</druid.version>
+		<mybatis.boot.starter.version>1.3.2</mybatis.boot.starter.version>
+		<mysql.connector.java.version>5.1.46</mysql.connector.java.version>
+		<dubbo.boot.version>2.0.0</dubbo.boot.version>
+		<dubbo.alibaba.version>2.6.1</dubbo.alibaba.version>
+		<zkclient.version>2.11.1</zkclient.version>
+		<activemq.pool.version>5.15.3</activemq.pool.version>
+		<protostuff.version>1.1.3</protostuff.version>
+		<fastjson.version>1.2.47</fastjson.version>
+		<redis.session.boot>2.0.2.RELEASE</redis.session.boot>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis.boot.starter.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.connector.java.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.spring.boot</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
+				<version>${dubbo.boot.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.alibaba.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${zkclient.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-pool</artifactId>
+				<version>${activemq.pool.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-runtime</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-core</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session-data-redis</artifactId>
+				<version>${redis.session.boot}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
 
-			</plugin>
-		</plugins>
-	</build>
+
 
 
 </project>

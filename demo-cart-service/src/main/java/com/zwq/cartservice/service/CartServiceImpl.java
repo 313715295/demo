@@ -1,18 +1,19 @@
 package com.zwq.cartservice.service;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.zwq.parent.domain.Order;
-import com.zwq.parent.domain.OrderItem;
-import com.zwq.parent.domain.Tea;
-import com.zwq.parent.domain.User;
+import com.zwq.commons.enums.ExceptionEnum;
+import com.zwq.commons.enums.SuccessEnum;
+import com.zwq.commons.exception.StockOutException;
+import com.zwq.commons.serializer.ProtoStuffSerializer;
+import com.zwq.parent.ModulesService.CartService;
 import com.zwq.parent.dto.OrderDataDTO;
 import com.zwq.parent.dto.Result;
 import com.zwq.parent.dto.TeaData;
-import com.zwq.parent.enums.CartEnum;
-import com.zwq.parent.service.CartService;
-import com.zwq.parent.service.DaoService;
-import com.zwq.parent.util.ProtoStuffUtil;
+import com.zwq.pojo.Order;
+import com.zwq.pojo.OrderItem;
+import com.zwq.pojo.Tea;
+import com.zwq.pojo.User;
+import com.zwq.service.TeaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -27,12 +28,15 @@ import java.util.*;
 @Service(interfaceClass = CartService.class)
 public class CartServiceImpl implements CartService {
     private static final String ADD_ORDER_QUEUE = "addOrder.queue";
-    @Reference
-    private DaoService daoService;
-    @Autowired
+
     private JmsMessagingTemplate jms;
+    private TeaService teaService;
 
-
+    @Autowired
+    public CartServiceImpl(JmsMessagingTemplate jms, TeaService teaService) {
+        this.jms = jms;
+        this.teaService = teaService;
+    }
 
     @Override
     public Result<Map<Integer, Integer>> addCartItem(Map<Integer, Integer> map, int id, int count) {
@@ -47,12 +51,12 @@ public class CartServiceImpl implements CartService {
             oldCount = map.get(id);
         }
         int newCount = oldCount + count;
-        int stocks = daoService.selectProductStocksById(id);
+        int stocks = teaService.selectStocks(id);
         if (stocks < newCount) {
-            result = new Result<>(false, CartEnum.STOCKOUT, null);
+            result = new Result<>(false, ExceptionEnum.STOCKOUT, null);
         } else {
             map.put(id, newCount);
-            result = new Result<>(true, CartEnum.SUCCESS, map);
+            result = new Result<>(true, SuccessEnum.ADD_CARTITEM_SUCCESS, map);
 
         }
         return result;
@@ -65,7 +69,7 @@ public class CartServiceImpl implements CartService {
         for (Integer id : ids) {
             OrderItem orderItem = new OrderItem();
             Integer count = map.get(id);
-            Tea tea = daoService.seletcProductById(id);
+            Tea tea = teaService.select(id);
             orderItem.setTea(tea);
             orderItem.setCount(count);
             orderItems.add(orderItem);
@@ -81,7 +85,7 @@ public class CartServiceImpl implements CartService {
             OrderItem orderItem = new OrderItem();
             int count = teaData.getCount();
             int tid = teaData.getTid();
-            Tea tea = daoService.seletcProductById(tid);
+            Tea tea = teaService.select(tid);
             orderItem.setTea(tea);
             orderItem.setCount(count);
             orderItems.add(orderItem);
@@ -97,40 +101,32 @@ public class CartServiceImpl implements CartService {
     @Override
     public Result<Order> submitOrder(User user, Order order) {
         if (user == null) {
-            return new Result<>(false, "登录超时", null);
+            return new Result<>(false, ExceptionEnum.LOGIN_TIMEOUT, null);
         }
         if (order == null) {
-            return new Result<>(false, "数据失效", null);
+            return new Result<>(false, ExceptionEnum.DATA_FAILURE, null);
         }
         order.setUser(user);
         Instant instant = Instant.now();
         order.setCreatTime(instant);
         List<OrderItem> orderItems = order.getOrderItems();
-        List<String> TeaNames = new ArrayList<>();
-        for (OrderItem orderItem : orderItems) {
-            Tea tea = orderItem.getTea();
-            int oldCount = tea.getStocks();
-            int count = orderItem.getCount();
-            int newCount = oldCount - count;
-            tea.setStocks(newCount);
-            if (newCount < 0) {
-                TeaNames.add(tea.getName());
-            }
+        try {
+            //把订单项数据先做入库处理，如果因为库存入库失败，捕捉该异常并抛出
+            teaService.UpdateStocksByList(orderItems);
+        } catch (StockOutException e) {
+            return new Result<>(false, e.getMessage(), null);
         }
-        if (TeaNames.size() > 0) {
-            String message = TeaNames + "库存不足";
-            return new Result<>(false, message, null);
-        } else {
-            sendMsgToAddOrder(ADD_ORDER_QUEUE,order);
-            return new Result<>(true, "成功提交订单", null);
+        //如果入库成功，则把订单数据发送至处理订单入库的消息队列中，返回下单成功提示
+        sendMsgToAddOrder(ADD_ORDER_QUEUE, order);
+        return new Result<>(true, SuccessEnum.ADD_ORDER_SUCCESS, null);
 
-        }
+
     }
 
     @Override
     public void sendMsgToAddOrder(String destinationName, Object o) {
-        byte[] data = ProtoStuffUtil.serialize(o);
+        byte[] data = ProtoStuffSerializer.serialize(o);
         jms.convertAndSend(destinationName, data);
-}
+    }
 
 }
