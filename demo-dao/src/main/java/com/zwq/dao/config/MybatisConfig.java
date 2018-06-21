@@ -3,9 +3,15 @@ package com.zwq.dao.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +32,9 @@ public class MybatisConfig  {
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "910810";
     private static final String DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
-    private static final String MAPPER_LOCATION = "/mapper/*.xml";
+    private static final String MAPPER_LOCATION = "classpath*:/mapper/*.xml";
     private static final String TYPE_ALIASES_PACKAGE = "com.zwq.pojo";
-
+    private static final String MAPPER_SCAN_PACKAGE = "com.zwq.dao.mapper";
     @Bean(name = "myDruidDataSource")
     public DataSource myDruidDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
@@ -98,11 +104,22 @@ public class MybatisConfig  {
 
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("myDruidDataSource") DataSource dataSource) throws Exception {
+//        VFS.addImplClass(SpringBootVFS.class);
+//        sqlSessionFactoryBean.setTypeHandlersPackage(TYPE_HANDLER_PACKAGE);~这个配置了没生效~以后再研究，暂时再配置了个mapperScan
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
+        //这一步超重要~~要不打成jar包后mybatis的bean会扫不到
+        sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources(MAPPER_LOCATION));
         sqlSessionFactoryBean.setTypeAliasesPackage(TYPE_ALIASES_PACKAGE);
         return sqlSessionFactoryBean.getObject();
+    }
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer(){
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+        mapperScannerConfigurer.setBasePackage(MAPPER_SCAN_PACKAGE);
+        return mapperScannerConfigurer;
     }
 }

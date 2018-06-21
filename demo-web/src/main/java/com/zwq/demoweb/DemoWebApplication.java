@@ -5,8 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan({"com.zwq"})
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.zwq"})
 @EnableDubboConfiguration
 public class DemoWebApplication {
 

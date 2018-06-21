@@ -26,7 +26,10 @@ public class SignServiceIpml implements SignService{
     public Result<User> logChecking(User user) {
 
         User user1 = userService.selectByName(user.getName());
-        if (user1 != null&&user.getPassword().equals(user1.getPassword())) {
+        if (user1 == null) {
+            return new Result<>(false, ExceptionEnum.UNREGISTERED,null);
+        }
+        if (user.getPassword().equals(user1.getPassword())) {
             return new Result<>(true, SuccessEnum.LOGIN_SUCCESS,user1);
         }
         return new Result<>(false, ExceptionEnum.LOGIN_FAIL,null);

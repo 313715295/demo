@@ -14,7 +14,8 @@ public enum ExceptionEnum implements MyEnum  {
     DELETE_FAIL(-6, "删除失败"),
     LOGIN_FAIL(-7, "账号或密码错误"),
     USERNAME_REPEAT(-8, "账号已存在"),
-    EDITOR_PASSWORD_FAIL(-9, "修改密码失败");
+    EDITOR_PASSWORD_FAIL(-9, "修改密码失败"),
+    UNREGISTERED(-10, "未注册");
 
 
 
