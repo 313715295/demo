@@ -5,7 +5,7 @@
 
 	<groupId>com.zwq</groupId>
 	<artifactId>demo</artifactId>
-	<version>3.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>demo</name>
@@ -18,17 +18,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<modules>
-		<module>demo-commons</module>
-		<module>demo-pojo</module>
-		<module>demo-dao</module>
-		<module>demo-dao-service</module>
-		<module>demo-dao-simpl</module>
-		<module>demo-modules-parent</module>
-		<module>demo-cart-service</module>
-		<module>demo-sign-service</module>
-		<module>demo-admin-service</module>
-		<module>demo-order-service</module>
-		<module>demo-web</module>
+		<module>demo-basis</module>
+		<module>demo-modules</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -115,12 +106,7 @@
 
 		</dependencies>
 	</dependencyManagement>
-	<dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-	</dependencies>
+
 
 
 
