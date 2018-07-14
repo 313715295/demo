@@ -18,14 +18,8 @@ public class IndexController {
     private AdminService adminService;
 
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/index","/"})
     public String showIndex(Model model) {
-        List<Tea> teas = adminService.getProducts();
-        model.addAttribute("teas", teas);
-        return "index";
-    }
-    @GetMapping("/")
-    public String showIndex1(Model model) {
         List<Tea> teas = adminService.getProducts();
         model.addAttribute("teas", teas);
         return "index";

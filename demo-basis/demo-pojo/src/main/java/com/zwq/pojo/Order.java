@@ -19,6 +19,7 @@ public class Order implements Serializable {
     private String code;
     private Integer sum;
     private List<OrderItem> orderItems;
+
     public Integer getSum() {
         return sum;
     }
