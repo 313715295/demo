@@ -3,7 +3,6 @@ package com.zwq.webApp.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zwq.moduleService.AdminService;
 import com.zwq.pojo.Tea;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
