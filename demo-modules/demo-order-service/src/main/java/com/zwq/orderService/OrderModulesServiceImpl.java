@@ -38,10 +38,11 @@ public class OrderModulesServiceImpl implements OrderModulesService {
         if (orders == null) {
             orderSerivce.selectByUser(uid);
         } else {
-            //最新订单添加至最前，是把该缓存所有数据覆盖
+            //最新订单添加至最前
             orders.add(0,order);
+            //这个方式是更新key的缓存数据
             redisClient.setListWithExpire(key2,orders,3600);
-            //redisClient.lPush(key,order); todo 这个是把数据插入缓存最前，不用更新该缓存所有数据。不过没有设置过期时间，
+            //redisClient.lPush(key,order); todo 这个是把数据插入缓存最前，不用更新该缓存所有数据。有待研究，
         }
     }
 
