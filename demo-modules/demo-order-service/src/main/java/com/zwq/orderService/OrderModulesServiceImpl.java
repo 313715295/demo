@@ -22,6 +22,7 @@ public class OrderModulesServiceImpl implements OrderModulesService {
     private ProtostuffRedisClient redisClient;
     @Autowired
     public OrderModulesServiceImpl(OrderSerivce orderSerivce, ProtostuffRedisClient redisClient) {
+
         this.orderSerivce = orderSerivce;
         this.redisClient = redisClient;
     }
