@@ -4,35 +4,56 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwq.dao.mapper.UserDao">
     <select id="selectById" resultType="User">
-        select * from user where id = #{id} LIMIT 1
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+        LIMIT 1
     </select>
     <select id="selectByUser" resultType="User">
-        SELECT * FROM user where name=#{name} and password=#{password} LIMIT 1
+        SELECT *
+        FROM user
+        WHERE name = #{name} AND password = #{password}
+        LIMIT 1
     </select>
     <select id="selectByName" resultType="User">
-        SELECT * FROM user where name=#{name} LIMIT 1
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+        LIMIT 1
     </select>
     <select id="listAll" resultType="User">
-        select * from user
+        SELECT *
+        FROM user
     </select>
 
     <select id="selectByAutho" resultType="User">
-        select * from user where autho = #{autho}
+        SELECT *
+        FROM user
+        WHERE autho = #{autho}
     </select>
 
-
+    <select id="selectIdByName" resultType="Integer">
+        SELECT id
+        FROM user
+        WHERE name = #{name}
+    </select>
     <delete id="deleteById">
-        delete from user where id = #{id}
+        DELETE FROM user
+        WHERE id = #{id}
     </delete>
 
     <insert id="add" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-        insert  user (name,password,autho) value (#{name},#{password},#{autho})
+        INSERT user (name, password, autho) VALUE (#{name}, #{password}, #{autho})
     </insert>
 
     <update id="update" parameterType="User">
-        update user set name=#{name},password=#{password} where id=#{id}
+        UPDATE user
+        SET name = #{name}, password = #{password}
+        WHERE id = #{id}
     </update>
     <update id="updatePassword" parameterType="User">
-        UPDATE user set password=#{password} where id =#{id}
+        UPDATE user
+        SET password = #{password}
+        WHERE id = #{id}
     </update>
 </mapper>

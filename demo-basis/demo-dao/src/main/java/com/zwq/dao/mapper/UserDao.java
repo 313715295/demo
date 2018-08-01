@@ -29,4 +29,6 @@ public interface UserDao extends Dao<User> {
     User selectByName(String name);
 
     List<User> selectByAutho(int autho);
+
+    Integer selectIdByName(String name);
 }
