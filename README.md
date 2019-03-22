@@ -23,3 +23,5 @@ activeMQ在购物车提交订单中有使用（用法其实错误的，因为库
 添加scanBasePackages。
 
 安装zookeeper、redis、activeMQ，具体可以网上看攻略。确保都启动后，启动四个服务，成功注册至zookeeper后就可以启动web服务了。
+
+看代码可以从demo-web中的几个controller开始看，然后逐步追踪业务实现，这个是使用的模板引擎渲染页面，当前大部分都使用json做数据交互。
